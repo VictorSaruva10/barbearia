@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia - Estilo Clássico com Toque Moderno</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #D4AF37;
+            --light: #FFFFFF;
+            --dark: #1A1A1A;
+            --gray: #333333;
+        }
+
+        /* Custom animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .animate-slideUp {
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Custom hover effects */
+        .hover-grow {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-grow:hover {
+            transform: scale(1.03);
+        }
+
+        .hover-underline {
+            position: relative;
+        }
+
+        .hover-underline::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .hover-underline:hover::after {
+            width: 100%;
+        }
+
+        /* Navbar scroll effect */
+        .navbar {
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Gallery item overlay */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Testimonial card */
+        .testimonial-card {
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            font-size: 5rem;
+            color: var(--secondary);
+            opacity: 0.2;
+            font-family: serif;
+        }
+
+        /* Hide scrollbar but allow scrolling */
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-black text-white font-sans">
+    <!-- Floating Book Now Button -->
+    <a href="#contact" class="fixed bottom-8 right-8 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-4 px-6 rounded-full shadow-lg z-50 animate-pulse transition duration-300 transform hover:scale-105">
+        <i class="fas fa-calendar-alt mr-2"></i>Agendar Agora
+    </a>
+
+    <!-- Navigation -->
+    <nav class="navbar fixed top-0 left-0 w-full z-40 py-4 px-6 bg-black md:bg-opacity-90">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <span class="text-yellow-600 text-2xl font-bold mr-2"><i class="fas fa-cut"></i></span>
+                <a href="#" class="text-white text-2xl font-bold hover:text-yellow-600 transition duration-300">Barbearia <span class="text-yellow-600"></span></a>
+            </div>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="text-white hover:text-yellow-600 transition duration-300 hover-underline">Home</a>
+                <a href="#about" class="text-white hover:text-yellow-600 transition duration-300 hover-underline">Sobre</a>
+                <a href="#services" class="text-white hover:text-yellow-600 transition duration-300 hover-underline">Serviços</a>
+                <a href="#gallery" class="text-white hover:text-yellow-600 transition duration-300 hover-underline">Galeria</a>
+                <a href="#testimonials" class="text-white hover:text-yellow-600 transition duration-300 hover-underline">Depoimentos</a>
+                <a href="#contact" class="text-white hover:text-yellow-600 transition duration-300 hover-underline">Contato</a>
+            </div>
+            
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black bg-opacity-90 w-full absolute left-0 mt-4 py-4 px-6">
+            <div class="flex flex-col space-y-4">
+                <a href="#home" class="text-white hover:text-yellow-600 transition duration-300">Home</a>
+                <a href="#about" class="text-white hover:text-yellow-600 transition duration-300">Sobre</a>
+                <a href="#services" class="text-white hover:text-yellow-600 transition duration-300">Serviços</a>
+                <a href="#gallery" class="text-white hover:text-yellow-600 transition duration-300">Galeria</a>
+                <a href="#testimonials" class="text-white hover:text-yellow-600 transition duration-300">Depoimentos</a>
+                <a href="#contact" class="text-white hover:text-yellow-600 transition duration-300">Contato</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center justify-center bg-black overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <img src="https://images.unsplash.com/photo-1585747860715-ebba7e1a2a6c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" 
+             alt="Barbearia Vintage" 
+             class="absolute inset-0 w-full h-full object-cover">
+        
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto animate-slideUp">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 text-white">ESTILO CLÁSSICO COM TOQUE <span class="text-yellow-600">MODERNO</span></h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-300">Na Barbearia Vintage, cada corte é uma obra de arte. Descubra a experiência de um verdadeiro barbeiro.</p>
+            <a href="#contact" class="inline-block bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-8 rounded-md transition duration-300 transform hover:scale-105">
+                Agendar Horário
+            </a>
+        </div>
+        
+        <a href="#about" class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+            <i class="fas fa-chevron-down text-2xl"></i>
+        </a>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6 bg-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">SOBRE <span class="text-yellow-600">NÓS</span></h2>
+                <div class="w-20 h-1 bg-yellow-600 mx-auto mb-6"></div>
+                <p class="text-gray-400 max-w-3xl mx-auto">Uma tradição familiar que se transformou em referência em cuidados masculinos.</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 animate-fadeIn">
+                    <h3 class="text-2xl font-bold mb-6 text-yellow-600">Nossa História</h3>
+                    <p class="text-gray-400 mb-4">Fundada em 1995 por João Silva, a Barbearia Vintage começou como uma pequena loja no centro da cidade. Com dedicação e paixão pelo ofício, rapidamente nos tornamos referência em cortes clássicos e cuidados masculinos.</p>
+                    <p class="text-gray-400 mb-4">Hoje, mantemos a tradição familiar com a segunda geração à frente do negócio, combinando técnicas tradicionais com as últimas tendências em cuidados masculinos.</p>
+                    <p class="text-gray-400">Nosso espaço foi cuidadosamente projetado para oferecer conforto e sofisticação, mantendo o charme das barbearias clássicas com o toque moderno que nossos clientes merecem.</p>
+                </div>
+                
+                <div class="md:w-1/2 grid grid-cols-2 gap-4">
+                    <div class="relative group overflow-hidden rounded-lg hover-grow">
+                        <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Barbeiro trabalhando" 
+                             class="w-full h-64 object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span class="text-white font-bold text-lg">João Silva</span>
+                        </div>
+                    </div>
+                    <div class="relative group overflow-hidden rounded-lg hover-grow">
+                        <img src="https://images.unsplash.com/photo-1581337204873-ef36aa186caa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Interior da barbearia" 
+                             class="w-full h-64 object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span class="text-white font-bold text-lg">Nosso Espaço</span>
+                        </div>
+                    </div>
+                    <div class="relative group overflow-hidden rounded-lg hover-grow">
+                        <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Ferramentas de barbeiro" 
+                             class="w-full h-64 object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span class="text-white font-bold text-lg">Nossas Ferramentas</span>
+                        </div>
+                    </div>
+                    <div class="relative group overflow-hidden rounded-lg hover-grow">
+                        <img src="https://images.unsplash.com/photo-1562324771-c5e0df9d9d01?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Barbeiro atendendo cliente" 
+                             class="w-full h-64 object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span class="text-white font-bold text-lg">Carlos Mendes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 px-6 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">NOSSOS <span class="text-yellow-600">SERVIÇOS</span></h2>
+                <div class="w-20 h-1 bg-yellow-600 mx-auto mb-6"></div>
+                <p class="text-gray-400 max-w-3xl mx-auto">Oferecemos uma variedade de serviços para cuidar do seu visual e bem-estar.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover-grow transition-all duration-300 transform hover:-translate-y-2">
+                    <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Corte de Cabelo" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white">Corte Clássico</h3>
+                        <p class="text-gray-400 mb-4">Corte tradicional com tesoura e máquina, finalizado com acabamento perfeito.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-yellow-600 font-bold text-lg">R$ 60,00</span>
+                            <button class="text-white bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded transition duration-300">
+                                Agendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 2 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover-grow transition-all duration-300 transform hover:-translate-y-2">
+                    <img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Barba" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white">Tratamento de Barba</h3>
+                        <p class="text-gray-400 mb-4">Aparo, modelagem e tratamento com produtos premium para uma barba impecável.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-yellow-600 font-bold text-lg">R$ 45,00</span>
+                            <button class="text-white bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded transition duration-300">
+                                Agendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 3 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover-grow transition-all duration-300 transform hover:-translate-y-2">
+                    <img src="https://images.unsplash.com/photo-1599351431405-1e2ae1a0b3b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Pacote Completo" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white">Pacote Vintage</h3>
+                        <p class="text-gray-400 mb-4">Corte de cabelo, tratamento de barba, limpeza de pele e massagem relaxante.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-yellow-600 font-bold text-lg">R$ 120,00</span>
+                            <button class="text-white bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded transition duration-300">
+                                Agendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 4 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover-grow transition-all duration-300 transform hover:-translate-y-2">
+                    <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Coloração" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white">Coloração</h3>
+                        <p class="text-gray-400 mb-4">Coloração profissional para cabelo e barba com produtos de alta qualidade.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-yellow-600 font-bold text-lg">R$ 80,00</span>
+                            <button class="text-white bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded transition duration-300">
+                                Agendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 5 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover-grow transition-all duration-300 transform hover:-translate-y-2">
+                    <img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Hidratação" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white">Hidratação Capilar</h3>
+                        <p class="text-gray-400 mb-4">Tratamento intensivo para cabelos ressecados e danificados.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-yellow-600 font-bold text-lg">R$ 65,00</span>
+                            <button class="text-white bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded transition duration-300">
+                                Agendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 6 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover-grow transition-all duration-300 transform hover:-translate-y-2">
+                    <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Massagem" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white">Massagem Relaxante</h3>
+                        <p class="text-gray-400 mb-4">Massagem terapêutica para aliviar tensões e relaxar os músculos.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-yellow-600 font-bold text-lg">R$ 70,00</span>
+                            <button class="text-white bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded transition duration-300">
+                                Agendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 px-6 bg-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">GALERIA DE <span class="text-yellow-600">FOTOS</span></h2>
+                <div class="w-20 h-1 bg-yellow-600 mx-auto mb-6"></div>
+                <p class="text-gray-400 max-w-3xl mx-auto">Um pouco do nosso dia a dia e do nosso espaço.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item rounded-lg overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1567894340315-735d7c361db0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Barbearia Vintage" 
+                         class="w-full h-64 object-cover">
+                    <div class="gallery-overlay">
+                        <button class="text-white text-4xl">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item rounded-lg overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1599351431405-1e2ae1a0b3b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Barbearia Vintage" 
+                         class="w-full h-64 object-cover">
+                    <div class="gallery-overlay">
+                        <button class="text-white text-4xl">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item rounded-lg overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1585747860715-ebba7e1a2a6c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Barbearia Vintage" 
+                         class="w-full h-64 object-cover">
+                    <div class="gallery-overlay">
+                        <button class="text-white text-4xl">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item rounded-lg overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Barbearia Vintage" 
+                         class="w-full h-64 object-cover">
+                    <div class="gallery-overlay">
+                        <button class="text-white text-4xl">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item rounded-lg overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1562324771-c5e0df9d9d01?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Barbearia Vintage" 
+                         class="w-full h-64 object-cover">
+                    <div class="gallery-overlay">
+                        <button class="text-white text-4xl">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item rounded-lg overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Barbearia Vintage" 
+                         class="w-full h-64 object-cover">
+                    <div class="gallery-overlay">
+                        <button class="text-white text-4xl">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="border-2 border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white font-bold py-3 px-8 rounded transition duration-300">
+                    Ver Mais Fotos
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 px-6 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">DEPOIMENTOS DE <span class="text-yellow-600">CLIENTES</span></h2>
+                <div class="w-20 h-1 bg-yellow-600 mx-auto mb-6"></div>
+                <p class="text-gray-400 max-w-3xl mx-auto">O que nossos clientes dizem sobre a Barbearia Vintage.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-gray-900 p-8 rounded-lg testimonial-card hover-grow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" 
+                             alt="Cliente" 
+                             class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <h4 class="text-white font-bold">Ricardo Almeida</h4>
+                            <div class="flex text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 italic">"Sou cliente da Barbearia Vintage há mais de 5 anos e nunca fiquei desapontado. O atendimento é impecável e os cortes sempre perfeitos. Recomendo a todos que buscam qualidade e profissionalismo."</p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-gray-900 p-8 rounded-lg testimonial-card hover-grow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/22.jpg" 
+                             alt="Cliente" 
+                             class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <h4 class="text-white font-bold">Marcos Oliveira</h4>
+                            <div class="flex text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 italic">"Encontrei na Barbearia Vintage o lugar perfeito para cuidar da minha barba. Os profissionais são extremamente qualificados e o ambiente é super aconchegante. Não troco por nenhuma outra!"</p>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-gray-900 p-8 rounded-lg testimonial-card hover-grow">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" 
+                             alt="Cliente" 
+                             class="w-12 h-12 rounded-full mr-4 object-cover">
+                        <div>
+                            <h4 class="text-white font-bold">Gustavo Santos</h4>
+                            <div class="flex text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 italic">"Comecei a frequentar a Barbearia Vintage recentemente e já me tornei cliente fiel. O cuidado com os detalhes e a atenção personalizada fazem toda a diferença. Melhor barbearia da região!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6 bg-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">ENTRE EM <span class="text-yellow-600">CONTATO</span></h2>
+                <div class="w-20 h-1 bg-yellow-600 mx-auto mb-6"></div>
+                <p class="text-gray-400 max-w-3xl mx-auto">Agende seu horário ou tire suas dúvidas conosco.</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2">
+                    <form class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-white mb-2">Nome Completo</label>
+                            <input type="text" id="name" 
+                                   class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600 text-white">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-white mb-2">E-mail</label>
+                            <input type="email" id="email" 
+                                   class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600 text-white">
+                        </div>
+                        
+                        <div>
+                            <label for="phone" class="block text-white mb-2">Telefone</label>
+                            <input type="tel" id="phone" 
+                                   class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600 text-white">
+                        </div>
+                        
+                        <div>
+                            <label for="service" class="block text-white mb-2">Serviço Desejado</label>
+                            <select id="service" 
+                                    class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600 text-white">
+                                <option value="">Selecione um serviço</option>
+                                <option value="corte">Corte Clássico</option>
+                                <option value="barba">Tratamento de Barba</option>
+                                <option value="pacote">Pacote Vintage</option>
+                                <option value="coloracao">Coloração</option>
+                                <option value="hidratacao">Hidratação Capilar</option>
+                                <option value="massagem">Massagem Relaxante</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-white mb-2">Mensagem</label>
+                            <textarea id="message" rows="5" 
+                                      class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-yellow-600 text-white"></textarea>
+                        </div>
+                        
+                        <button type="submit" 
+                                class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-4 rounded transition duration-300">
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="bg-black p-8 rounded-lg h-full">
+                        <h3 class="text-2xl font-bold mb-6 text-yellow-600">Informações de Contato</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-yellow-600 text-xl mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="text-white font-bold mb-1">Endereço</h4>
+                                    <p class="text-gray-400">Rua das Barbearias, 123 - Centro<br>São Paulo - SP, 01000-000</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <i class="fas fa-phone-alt text-yellow-600 text-xl mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="text-white font-bold mb-1">Telefone</h4>
+                                    <p class="text-gray-400">(11) 9999-9999<br>(11) 8888-8888</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <i class="fas fa-envelope text-yellow-600 text-xl mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="text-white font-bold mb-1">E-mail</h4>
+                                    <p class="text-gray-400">contato@barbeariavintage.com.br</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <i class="fas fa-clock text-yellow-600 text-xl mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="text-white font-bold mb-1">Horário de Funcionamento</h4>
+                                    <p class="text-gray-400">
+                                        Segunda a Sexta: 09:00 - 19:00<br>
+                                        Sábado: 09:00 - 17:00<br>
+                                        Domingo: Fechado
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="text-white font-bold mb-4">Siga-nos nas Redes Sociais</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="text-gray-400 hover:text-yellow-600 transition duration-300 text-2xl">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-yellow-600 transition duration-300 text-2xl">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="text-gray-400 hover:text-yellow-600 transition duration-300 text-2xl">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 rounded-lg overflow-hidden">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.0754267452926!2d-46.65342658440671!3d-23.5657343676385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1623868407239!5m2!1spt-BR!2sbr" 
+                        width="100%" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy"
+                        class="rounded-lg"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center">
+                        <span class="text-yellow-600 text-2xl font-bold mr-2"><i class="fas fa-cut"></i></span>
+                        <a href="#" class="text-white text-2xl font-bold hover:text-yellow-600 transition duration-300">Barbearia <span class="text-yellow-600">Vintage</span></a>
+                    </div>
+                    <p class="text-gray-500 mt-2">Estilo clássico com toque moderno.</p>
+                </div>
+                
+                <div class="flex flex-col md:flex-row md:space-x-12 space-y-4 md:space-y-0">
+                    <div>
+                        <h4 class="text-white font-bold mb-4">Links Rápidos</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#home" class="text-gray-500 hover:text-yellow-600 transition duration-300">Home</a></li>
+                            <li><a href="#about" class="text-gray-500 hover:text-yellow-600 transition duration-300">Sobre</a></li>
+                            <li><a href="#services" class="text-gray-500 hover:text-yellow-600 transition duration-300">Serviços</a></li>
+                            <li><a href="#gallery" class="text-gray-500 hover:text-yellow-600 transition duration-300">Galeria</a></li>
+                            <li><a href="#contact" class="text-gray-500 hover:text-yellow-600 transition duration-300">Contato</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-white font-bold mb-4">Serviços</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-500 hover:text-yellow-600 transition duration-300">Corte Clássico</a></li>
+                            <li><a href="#" class="text-gray-500 hover:text-yellow-600 transition duration-300">Tratamento de Barba</a></li>
+                            <li><a href="#" class="text-gray-500 hover:text-yellow-600 transition duration-300">Pacote Vintage</a></li>
+                            <li><a href="#" class="text-gray-500 hover:text-yellow-600 transition duration-300">Coloração</a></li>
+                            <li><a href="#" class="text-gray-500 hover:text-yellow-600 transition duration-300">Hidratação</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-white font-bold mb-4">Contato</h4>
+                        <ul class="space-y-2">
+                            <li class="text-gray-500">Rua das Barbearias, 123</li>
+                            <li class="text-gray-500">contato@barbeariavintage.com.br</li>
+                            <li class="text-gray-500">(11) 9999-9999</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">&copy; 2023 Barbearia Vintage. Todos os direitos reservados.</p>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-yellow-600 transition duration-300">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-yellow-600 transition duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-yellow-600 transition duration-300">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Navbar scroll effect
+        const navbar = document.querySelector('.navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeIn');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all elements with the 'scroll-animate' class
+        document.querySelectorAll('.scroll-animate').forEach(element => {
+            observer.observe(element);
+        });
+        
+        // Gallery modal functionality
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden';
+        modal.innerHTML = `
+            <div class="relative max-w-4xl w-full p-4">
+                <button class="absolute -top-12 right-0 text-white text-3xl focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+                <img src="" alt="" class="w-full h-auto max-h-screen object-contain">
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        const modalImg = modal.querySelector('img');
+        const closeModal = modal.querySelector('button');
+        
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.querySelector('img').src;
+                modalImg.src = imgSrc;
+                modalImg.alt = item.querySelector('img').alt;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Form submission
+        const contactForm = document.querySelector('form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Here you would typically send the form data to a server
+                // For this example, we'll just show an alert
+                alert('Obrigado por sua mensagem! Entraremos em contato em breve.');
+                contactForm.reset();
+            });
+        }
+    </script>
+</body>
+</html>
